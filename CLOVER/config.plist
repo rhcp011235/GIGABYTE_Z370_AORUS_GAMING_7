@@ -4,6 +4,8 @@
 <dict>
 	<key>ACPI</key>
 	<dict>
+		<key>AutoMerge</key>
+		<true/>
 		<key>DSDT</key>
 		<dict>
 			<key>Debug</key>
@@ -12,8 +14,14 @@
 			<false/>
 			<key>Fixes</key>
 			<dict>
-				<key>FixShutdown</key>
+				<key>DeleteUnused</key>
 				<true/>
+				<key>FixMutex</key>
+				<true/>
+				<key>FixRegions</key>
+				<true/>
+				<key>FixShutdown</key>
+				<false/>
 			</dict>
 			<key>Name</key>
 			<string>DSDT.aml</string>
@@ -21,7 +29,21 @@
 			<array>
 				<dict>
 					<key>Comment</key>
-					<string>Rename HDAS to HDEF</string>
+					<string>change GFX0 to IGPU</string>
+					<key>Disabled</key>
+					<false/>
+					<key>Find</key>
+					<data>
+					R0ZYMA==
+					</data>
+					<key>Replace</key>
+					<data>
+					SUdQVQ==
+					</data>
+				</dict>
+				<dict>
+					<key>Comment</key>
+					<string>change HDAS to HDEF</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -35,36 +57,38 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>change XHCI to XHC</string>
+					<string>change HECI to IMEI</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
 					<data>
-					WEhDSQ==
+					SEVDSQ==
 					</data>
 					<key>Replace</key>
 					<data>
-					WEhDXw==
+					SU1FSQ==
 					</data>
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>change XHC1 to XHC</string>
+					<string>change SAT0 to SATA</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
 					<data>
-					WEhDMQ==
+					U0FUMA==
 					</data>
 					<key>Replace</key>
 					<data>
-					WEhDXw==
+					U0FUQQ==
 					</data>
 				</dict>
 			</array>
 			<key>ReuseFFFF</key>
 			<false/>
 		</dict>
+		<key>DisableASPM</key>
+		<true/>
 		<key>DropTables</key>
 		<array>
 			<dict>
@@ -84,6 +108,8 @@
 				<string>Cpu0Ist</string>
 			</dict>
 		</array>
+		<key>FixHeaders</key>
+		<true/>
 		<key>HaltEnabler</key>
 		<true/>
 		<key>SSDT</key>
@@ -93,59 +119,55 @@
 			<key>Generate</key>
 			<dict>
 				<key>CStates</key>
-				<true/>
+				<false/>
 				<key>PStates</key>
-				<true/>
+				<false/>
 			</dict>
+			<key>NoDynamicExtract</key>
+			<true/>
+			<key>NoOemTableId</key>
+			<true/>
 		</dict>
 	</dict>
 	<key>Boot</key>
 	<dict>
 		<key>Arguments</key>
-		<string>dart=0 -shikigva</string>
+		<string>-rad4200 dart=0 shikigva=12 -disablegfxfirmware -v</string>
 		<key>Debug</key>
 		<false/>
 		<key>DefaultLoader</key>
 		<string>boot.efi</string>
 		<key>DefaultVolume</key>
-		<string>LastBootedVolume</string>
+		<string>Mac Flash</string>
 		<key>Legacy</key>
 		<string>PBR</string>
 		<key>Secure</key>
 		<false/>
 		<key>Timeout</key>
-		<integer>-1</integer>
+		<integer>2</integer>
 		<key>XMPDetection</key>
 		<string>Yes</string>
 	</dict>
 	<key>CPU</key>
 	<dict>
+		<key>QPI</key>
+		<integer>100</integer>
 		<key>UseARTFrequency</key>
 		<false/>
 	</dict>
 	<key>Devices</key>
 	<dict>
-		<key>AddProperties</key>
-		<array>
-			<dict>
-				<key>Device</key>
-				<string>IntelGFX</string>
-				<key>Disabled</key>
-				<false/>
-				<key>Key</key>
-				<string>AAPL,GfxYTile</string>
-				<key>Value</key>
-				<data>
-				CqqqAA==
-				</data>
-			</dict>
-		</array>
 		<key>Audio</key>
 		<dict>
 			<key>Inject</key>
-			<string>7</string>
+			<string>1</string>
 			<key>ResetHDA</key>
 			<true/>
+		</dict>
+		<key>FakeID</key>
+		<dict>
+			<key>IntelGFX</key>
+			<string>0x59128086</string>
 		</dict>
 		<key>USB</key>
 		<dict>
@@ -171,9 +193,9 @@
 			<integer>8</integer>
 		</dict>
 		<key>ScreenResolution</key>
-		<string>1280x1024</string>
+		<string>1600x1200</string>
 		<key>Theme</key>
-		<string>embedded</string>
+		<string>applesupported</string>
 	</dict>
 	<key>Graphics</key>
 	<dict>
@@ -193,11 +215,13 @@
 		</dict>
 		<key>NvidiaSingle</key>
 		<false/>
+		<key>ig-platform-id</key>
+		<string>0x59120003</string>
 	</dict>
 	<key>KernelAndKextPatches</key>
 	<dict>
 		<key>AppleIntelCPUPM</key>
-		<true/>
+		<false/>
 		<key>AppleRTC</key>
 		<true/>
 		<key>Debug</key>
@@ -218,33 +242,19 @@
 		<array>
 			<dict>
 				<key>Comment</key>
-				<string>change 15 port limit to 24</string>
-				<key>Disabled</key>
-				<false/>
-				<key>Find</key>
-				<data>
-				g32MEA==
-				</data>
-				<key>MatchOS</key>
-				<string>10.13.x</string>
-				<key>Name</key>
-				<string>AppleUSBXHCIPCI</string>
-				<key>Replace</key>
-				<data>
-				g32MGw==
-				</data>
-			</dict>
-			<dict>
-				<key>Comment</key>
-				<string>External Drives as Internal to fix Orange Icons</string>
+				<string>External icons patch</string>
 				<key>Disabled</key>
 				<false/>
 				<key>Find</key>
 				<data>
 				RXh0ZXJuYWw=
 				</data>
+				<key>InfoPlistPatch</key>
+				<false/>
+				<key>MatchOS</key>
+				<string>10.11.x,10.12.x,10.13.x</string>
 				<key>Name</key>
-				<string>AppleAHCIPort</string>
+				<string>com.apple.driver.AppleAHCIPort</string>
 				<key>Replace</key>
 				<data>
 				SW50ZXJuYWw=
@@ -252,54 +262,42 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>(c)Pike R. Alpha</string>
+				<string>Change 15 port limit</string>
 				<key>Disabled</key>
 				<false/>
 				<key>Find</key>
 				<data>
-				Ym9hcmQtaWQ=
+				g32UDw+DlwQ=
 				</data>
+				<key>InfoPlistPatch</key>
+				<false/>
+				<key>MatchOS</key>
+				<string>10.13.x</string>
 				<key>Name</key>
-				<string>AppleGraphicsDevicePolicy</string>
+				<string>com.apple.driver.usb.AppleUSBXHCI</string>
 				<key>Replace</key>
 				<data>
-				Ym9hcmQtaXg=
+				g32UGg+DlwQ=
 				</data>
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>change 15 port limit to 26</string>
+				<string>Patch Assertions</string>
 				<key>Disabled</key>
 				<false/>
 				<key>Find</key>
 				<data>
-				g710////EA==
+				U291bmQgYXNzZXJ0aW9uIA==
 				</data>
-				<key>MatchOS</key>
-				<string>10.12.x</string>
-				<key>Name</key>
-				<string>AppleUSBXHCIPCI</string>
-				<key>Replace</key>
-				<data>
-				g710////Gw==
-				</data>
-			</dict>
-			<dict>
-				<key>Comment</key>
-				<string>change 15 port limit to 26</string>
-				<key>Disabled</key>
+				<key>InfoPlistPatch</key>
 				<false/>
-				<key>Find</key>
-				<data>
-				g72M/v//EA==
-				</data>
 				<key>MatchOS</key>
-				<string>10.11.x</string>
+				<string>10.11.x,10.12.x,10.13.x</string>
 				<key>Name</key>
-				<string>AppleUSBXHCIPCI</string>
+				<string>com.apple.driver.AppleMikeyDriver</string>
 				<key>Replace</key>
 				<data>
-				g72M/v//Gw==
+				AAAAAAAAAAAAAAAAAAAAAA==
 				</data>
 			</dict>
 		</array>
@@ -310,29 +308,27 @@
 		<string>0x28</string>
 		<key>CsrActiveConfig</key>
 		<string>0x67</string>
-		<key>MLB</key>
-		<string>C02032109R5DC771H</string>
 		<key>ROM</key>
 		<string>UseMacAddr0</string>
 	</dict>
 	<key>SMBIOS</key>
 	<dict>
 		<key>BiosReleaseDate</key>
-		<string>08/08/2017</string>
+		<string>02/08/2018</string>
 		<key>BiosVendor</key>
 		<string>Apple Inc.</string>
 		<key>BiosVersion</key>
-		<string>IM183.88Z.0151.B00.1708080034</string>
+		<string>IM183.88Z.0157.B00.1802080917</string>
 		<key>Board-ID</key>
 		<string>Mac-BE088AF8C5EB4FA2</string>
 		<key>BoardManufacturer</key>
 		<string>Apple Inc.</string>
 		<key>BoardSerialNumber</key>
-		<string>C02713501OPF117CB</string>
+		<string>C02724100GUFF4MJC</string>
 		<key>BoardType</key>
 		<integer>10</integer>
 		<key>BoardVersion</key>
-		<string>iMac18,3</string>
+		<string>1.0</string>
 		<key>ChassisAssetTag</key>
 		<string>iMac-Aluminum</string>
 		<key>ChassisManufacturer</key>
@@ -342,7 +338,7 @@
 		<key>Family</key>
 		<string>iMac</string>
 		<key>FirmwareFeatures</key>
-		<string>0xFC0FE136</string>
+		<string>0xFC0FE137</string>
 		<key>FirmwareFeaturesMask</key>
 		<string>0xFF1FFF3F</string>
 		<key>LocationInChassis</key>
@@ -356,7 +352,9 @@
 		<key>ProductName</key>
 		<string>iMac18,3</string>
 		<key>SerialNumber</key>
-		<string>C02TH5KUJ1GJ</string>
+		<string>C02TV1LRJ1GJ</string>
+		<key>Trust</key>
+		<true/>
 		<key>Version</key>
 		<string>1.0</string>
 	</dict>
@@ -365,8 +363,6 @@
 		<key>InjectKexts</key>
 		<string>Yes</string>
 		<key>InjectSystemID</key>
-		<true/>
-		<key>NvidiaWeb</key>
 		<true/>
 	</dict>
 </dict>
